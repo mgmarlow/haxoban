@@ -30,8 +30,6 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-
-		FlxG.collide(player, walls);
 	}
 
 	function placeEntities(entity:EntityData)

@@ -2,11 +2,8 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.input.actions.FlxAction.FlxActionAnalog;
 import flixel.input.actions.FlxAction.FlxActionDigital;
-import flixel.input.actions.FlxActionInputDigital.FlxActionInputDigitalKeyboard;
 import flixel.input.actions.FlxActionManager;
-import flixel.input.actions.FlxActionSet;
 import flixel.util.FlxColor;
 
 class Player extends FlxSprite
@@ -23,6 +20,8 @@ class Player extends FlxSprite
 	public function new(x:Float = 0, y:Float = 0)
 	{
 		super(x, y);
+
+		setSize(64, 64);
 
 		// Maybe throw this somewhere else?
 		FlxG.inputs.add(actionManager);
@@ -59,17 +58,11 @@ class Player extends FlxSprite
 		var nextX = x + (dir.x * SIZE);
 		var nextY = y + (dir.y * SIZE);
 
-		if (outsideBounds(nextX, nextY))
-		{
-			return;
-		}
+		// if (overlapsAt(nextX, nextY, FlxObject.ANY))
+		// {
+		// 	return;
+		// }
 
-		x = nextX;
-		y = nextY;
-	}
-
-	function outsideBounds(nextX:Float, nextY:Float)
-	{
-		return nextX < 0 || nextX > FlxG.width - SIZE || nextY < 0 || nextY > FlxG.height - SIZE;
+		setPosition(nextX, nextY);
 	}
 }
