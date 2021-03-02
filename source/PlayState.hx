@@ -1,6 +1,5 @@
 package;
 
-import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
@@ -11,9 +10,12 @@ class PlayState extends FlxState
 	var player:Player;
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
+	var commander:CommandManager;
 
 	override public function create()
 	{
+		commander = new CommandManager();
+
 		map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
 		walls = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
 		walls.setTileProperties(89, FlxObject.NONE);
@@ -34,9 +36,13 @@ class PlayState extends FlxState
 
 	function placeEntities(entity:EntityData)
 	{
+		// Normalize coordinates based on tile size.
+		var coordX = Std.int(entity.x / 64);
+		var coordY = Std.int(entity.y / 64);
+
 		if (entity.name == "player")
 		{
-			player.setPosition(entity.x, entity.y);
+			player.setCoordinate(coordX, coordY);
 		}
 	}
 }

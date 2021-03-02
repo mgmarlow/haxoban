@@ -10,6 +10,9 @@ class Player extends FlxSprite
 {
 	static inline var SIZE:Int = 64;
 
+	public var coordX:Int;
+	public var coordY:Int;
+
 	var actionManager = new FlxActionManager();
 
 	var up = new FlxActionDigital();
@@ -41,6 +44,14 @@ class Player extends FlxSprite
 		super.update(elapsed);
 	}
 
+	public function setCoordinate(x:Int, y:Int)
+	{
+		coordX = x;
+		coordY = y;
+
+		setPosition(x * SIZE, y * SIZE);
+	}
+
 	function updateMovement()
 	{
 		if (up.triggered)
@@ -55,14 +66,14 @@ class Player extends FlxSprite
 
 	function doMove(dir:{x:Int, y:Int})
 	{
-		var nextX = x + (dir.x * SIZE);
-		var nextY = y + (dir.y * SIZE);
+		var nextX = coordX + dir.x;
+		var nextY = coordY + dir.y;
 
 		// if (overlapsAt(nextX, nextY, FlxObject.ANY))
 		// {
 		// 	return;
 		// }
 
-		setPosition(nextX, nextY);
+		setCoordinate(nextX, nextY);
 	}
 }
