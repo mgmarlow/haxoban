@@ -13,6 +13,7 @@ class Player extends FlxSprite
 	public var coordX:Int;
 	public var coordY:Int;
 
+	var commandManager:CommandManager;
 	var actionManager = new FlxActionManager();
 
 	var up = new FlxActionDigital();
@@ -20,19 +21,20 @@ class Player extends FlxSprite
 	var left = new FlxActionDigital();
 	var right = new FlxActionDigital();
 
-	public function new(x:Float = 0, y:Float = 0)
+	public function new(x:Float = 0, y:Float = 0, commander:CommandManager)
 	{
 		super(x, y);
 
 		setSize(64, 64);
+		commandManager = commander;
 
 		// Maybe throw this somewhere else?
 		FlxG.inputs.add(actionManager);
 
-		up.addKey(W, JUST_RELEASED);
-		down.addKey(S, JUST_RELEASED);
-		left.addKey(A, JUST_RELEASED);
-		right.addKey(D, JUST_RELEASED);
+		up.addKey(W, JUST_PRESSED);
+		down.addKey(S, JUST_PRESSED);
+		left.addKey(A, JUST_PRESSED);
+		right.addKey(D, JUST_PRESSED);
 
 		actionManager.addActions([up, down, left, right]);
 		makeGraphic(SIZE, SIZE, FlxColor.BLUE);
@@ -66,14 +68,21 @@ class Player extends FlxSprite
 
 	function doMove(dir:{x:Int, y:Int})
 	{
+		var prevX = coordX;
+		var prevY = coordY;
 		var nextX = coordX + dir.x;
 		var nextY = coordY + dir.y;
 
-		// if (overlapsAt(nextX, nextY, FlxObject.ANY))
-		// {
-		// 	return;
-		// }
+		function execute()
+		{
+			setCoordinate(nextX, nextY);
+		}
 
-		setCoordinate(nextX, nextY);
+		function undo()
+		{
+			setCoordinate(prevX, prevY);
+		}
+
+		commandManager.addCommand(execute, undo);
 	}
 }

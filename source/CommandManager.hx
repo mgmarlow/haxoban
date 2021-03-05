@@ -1,21 +1,15 @@
 package;
 
-interface Command
-{
-	public function execute():Void;
-	public function undo():Void;
-}
-
 class CommandManager
 {
-	private var commands:Array<Command> = [];
+	private var commands:Array<() -> Void> = [];
 
 	public function new() {}
 
-	public function addCommand(cmd:Command)
+	public function addCommand(execute:() -> Void, undo:() -> Void)
 	{
-		commands.push(cmd);
-		cmd.execute();
+		execute();
+		commands.push(undo);
 	}
 
 	public function undoCommand()
@@ -25,7 +19,7 @@ class CommandManager
 			return;
 		}
 
-		var cmd = commands.pop();
-		cmd.undo();
+		var undo = commands.pop();
+		undo();
 	}
 }

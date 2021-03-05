@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
@@ -22,16 +23,20 @@ class PlayState extends FlxState
 		walls.setTileProperties(19, FlxObject.ANY);
 		add(walls);
 
-		player = new Player();
+		player = new Player(commander);
 		map.loadEntities(placeEntities, "entities");
 
 		add(player);
+
 		super.create();
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (FlxG.keys.justPressed.Z)
+			commander.undoCommand();
 	}
 
 	function placeEntities(entity:EntityData)
