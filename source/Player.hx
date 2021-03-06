@@ -2,8 +2,15 @@ package;
 
 import CommandManager.Command;
 import flixel.FlxG;
+import flixel.group.FlxGroup;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 import flixel.input.actions.FlxActionManager;
+
+typedef Point =
+{
+	x:Int,
+	y:Int
+};
 
 class Player extends GameObject
 {
@@ -14,6 +21,8 @@ class Player extends GameObject
 	var down = new FlxActionDigital();
 	var left = new FlxActionDigital();
 	var right = new FlxActionDigital();
+
+	public var blocks:FlxTypedGroup<GameObject>;
 
 	public function new(x:Int = 0, y:Int = 0, commander:CommandManager)
 	{
@@ -52,42 +61,59 @@ class Player extends GameObject
 
 		if (up.triggered)
 		{
-			cmd = move({x: 0, y: -1});
-			animation.play("up");
+			cmd = move({x: 0, y: -1}, "up");
 		}
 		else if (down.triggered)
 		{
-			cmd = move({x: 0, y: 1});
-			animation.play("down");
+			cmd = move({x: 0, y: 1}, "down");
 		}
 		else if (left.triggered)
 		{
-			cmd = move({x: -1, y: 0});
-			animation.play("left");
+			cmd = move({x: -1, y: 0}, "left");
 		}
 		else if (right.triggered)
 		{
-			cmd = move({x: 1, y: 0});
-			animation.play("right");
+			cmd = move({x: 1, y: 0}, "right");
 		}
 
 		if (cmd != null)
 			commandManager.addCommand(cmd);
 	}
 
-	function move(dir:{x:Int, y:Int}):Command
+	function move(dir:Point, animationName:String):Command
 	{
-		var prev = {x: coordX, y: coordY};
 		var next = {x: coordX + dir.x, y: coordY + dir.y};
 
+		for (block in blocks)
+		{
+			var collides = block.coordX == next.x && block.coordY == next.y;
+
+			if (collides && !block.passable && !block.moveable)
+			{
+				return null;
+			}
+			else if (collides && block.moveable)
+			{
+				//
+			}
+		}
+
+		return createMove(next, animationName);
+	}
+
+	function createMove(next:Point, animationName:String):Command
+	{
 		function execute()
 		{
 			setCoordinate(next.x, next.y);
+			animation.play(animationName);
 		}
 
+		var prev = {x: coordX, y: coordY};
 		function undo()
 		{
 			setCoordinate(prev.x, prev.y);
+			animation.play(animationName);
 		}
 
 		return {

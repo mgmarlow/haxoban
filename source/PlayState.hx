@@ -9,7 +9,8 @@ class PlayState extends FlxState
 {
 	var commander:CommandManager;
 
-	var blocks:FlxGroup = new FlxGroup(100);
+	var blocks:FlxTypedGroup<GameObject> = new FlxTypedGroup(100);
+	var player:Player;
 
 	override public function create()
 	{
@@ -28,6 +29,8 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		blocks.update(elapsed);
+		player.blocks = blocks;
+		player.update(elapsed);
 
 		if (FlxG.keys.justPressed.Z)
 			commander.undoCommand();
@@ -37,6 +40,7 @@ class PlayState extends FlxState
 	{
 		super.draw();
 		blocks.draw();
+		player.draw();
 	}
 
 	function placeEntities(entity:EntityData)
@@ -45,9 +49,15 @@ class PlayState extends FlxState
 		var coordX = Std.int(entity.x / 64);
 		var coordY = Std.int(entity.y / 64);
 
+		// Keep player separate so it doesn't get added to the
+		// block FlxGroup.
+		if (entity.name == "player")
+		{
+			player = new Player(coordX, coordY, commander);
+		}
+
 		var block = switch (entity.name)
 		{
-			case "player": new Player(coordX, coordY, commander);
 			case "wall": new Wall(coordX, coordY);
 			case "box": new Box(coordX, coordY);
 			case "destination": new Destination(coordX, coordY);

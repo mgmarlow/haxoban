@@ -12,6 +12,32 @@ class CommandManager
 
 	public function new() {}
 
+	public function addCommands(cmds:Array<Command>)
+	{
+		function execute()
+		{
+			for (cmd in cmds)
+			{
+				cmd.execute();
+			}
+		}
+
+		function undo()
+		{
+			for (cmd in cmds)
+			{
+				cmd.undo();
+			}
+		}
+
+		var bulkCommand = {
+			execute: execute,
+			undo: undo
+		};
+
+		addCommand(bulkCommand);
+	}
+
 	public function addCommand(cmd:Command)
 	{
 		cmd.execute();

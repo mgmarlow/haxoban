@@ -9,6 +9,9 @@ class GameObject extends FlxSprite
 	public var coordX:Int;
 	public var coordY:Int;
 
+	public var moveable = false;
+	public var passable = false;
+
 	public function new(coordX:Int = 0, coordY:Int = 0)
 	{
 		super(0, 0);
