@@ -4,24 +4,27 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
+import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
 {
 	var player:Player;
 	var map:FlxOgmo3Loader;
-	var walls:FlxTilemap;
+	var ground:FlxTilemap;
 	var commander:CommandManager;
+
+	var blocks:FlxGroup = new FlxGroup(100);
 
 	override public function create()
 	{
 		commander = new CommandManager();
 
 		map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
-		walls = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
-		walls.setTileProperties(89, FlxObject.NONE);
-		walls.setTileProperties(19, FlxObject.ANY);
-		add(walls);
+		ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
+		ground.setTileProperties(89, FlxObject.NONE);
+		ground.setTileProperties(19, FlxObject.ANY);
+		add(ground);
 
 		player = new Player(commander);
 		map.loadEntities(placeEntities, "entities");
@@ -34,6 +37,7 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		blocks.update(elapsed);
 
 		if (FlxG.keys.justPressed.Z)
 			commander.undoCommand();
@@ -48,6 +52,21 @@ class PlayState extends FlxState
 		if (entity.name == "player")
 		{
 			player.setCoordinate(coordX, coordY);
+		}
+		else if (entity.name == "wall")
+		{
+			var wall = new Wall(coordX, coordY);
+			blocks.add(wall);
+		}
+		else if (entity.name == "box")
+		{
+			var box = new Box(coordX, coordY);
+			blocks.add(box);
+		}
+		else if (entity.name == "destination")
+		{
+			var dest = new Destination(coordX, coordY);
+			blocks.add(dest);
 		}
 	}
 }

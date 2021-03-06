@@ -1,18 +1,12 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 import flixel.input.actions.FlxActionManager;
 import flixel.util.FlxColor;
 
-class Player extends FlxSprite
+class Player extends GameObject
 {
-	static inline var SIZE:Int = 64;
-
-	public var coordX:Int;
-	public var coordY:Int;
-
 	var commandManager:CommandManager;
 	var actionManager = new FlxActionManager();
 
@@ -37,21 +31,13 @@ class Player extends FlxSprite
 		right.addKey(D, JUST_PRESSED);
 
 		actionManager.addActions([up, down, left, right]);
-		makeGraphic(SIZE, SIZE, FlxColor.BLUE);
+		makeGraphic(GameObject.SIZE, GameObject.SIZE, FlxColor.BLUE);
 	}
 
 	override function update(elapsed:Float)
 	{
 		updateMovement();
 		super.update(elapsed);
-	}
-
-	public function setCoordinate(x:Int, y:Int)
-	{
-		coordX = x;
-		coordY = y;
-
-		setPosition(x * SIZE, y * SIZE);
 	}
 
 	function updateMovement()
