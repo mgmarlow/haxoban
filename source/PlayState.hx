@@ -21,6 +21,8 @@ class PlayState extends FlxState
 		add(ground);
 
 		map.loadEntities(placeEntities, "entities");
+		add(blocks);
+		add(player);
 
 		super.create();
 	}
@@ -28,19 +30,10 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		blocks.update(elapsed);
 		player.blocks = blocks;
-		player.update(elapsed);
 
 		if (FlxG.keys.justPressed.Z)
 			commander.undoCommand();
-	}
-
-	override public function draw()
-	{
-		super.draw();
-		blocks.draw();
-		player.draw();
 	}
 
 	function placeEntities(entity:EntityData)

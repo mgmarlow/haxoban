@@ -10,4 +10,10 @@ class Destination extends GameObject
 		animation.add("idle", [37]);
 		animation.play("idle");
 	}
+
+	override function update(elapsed:Float)
+	{
+		// todo: win condition
+		super.update(elapsed);
+	}
 }

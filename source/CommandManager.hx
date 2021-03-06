@@ -12,7 +12,7 @@ class CommandManager
 
 	public function new() {}
 
-	public function addCommands(cmds:Array<Command>)
+	static public function combine(cmds:Array<Command>):Command
 	{
 		function execute()
 		{
@@ -30,12 +30,10 @@ class CommandManager
 			}
 		}
 
-		var bulkCommand = {
+		return {
 			execute: execute,
 			undo: undo
 		};
-
-		addCommand(bulkCommand);
 	}
 
 	public function addCommand(cmd:Command)

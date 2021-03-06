@@ -1,16 +1,11 @@
 package;
 
 import CommandManager.Command;
+import GameObject.Point;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 import flixel.input.actions.FlxActionManager;
-
-typedef Point =
-{
-	x:Int,
-	y:Int
-};
 
 class Player extends GameObject
 {
@@ -28,6 +23,7 @@ class Player extends GameObject
 	{
 		super(x, y);
 
+		moveable = true;
 		setSize(64, 64);
 		commandManager = commander;
 
@@ -61,29 +57,29 @@ class Player extends GameObject
 
 		if (up.triggered)
 		{
-			cmd = move({x: 0, y: -1}, "up");
+			cmd = tryMove({x: 0, y: -1});
 		}
 		else if (down.triggered)
 		{
-			cmd = move({x: 0, y: 1}, "down");
+			cmd = tryMove({x: 0, y: 1});
 		}
 		else if (left.triggered)
 		{
-			cmd = move({x: -1, y: 0}, "left");
+			cmd = tryMove({x: -1, y: 0});
 		}
 		else if (right.triggered)
 		{
-			cmd = move({x: 1, y: 0}, "right");
+			cmd = tryMove({x: 1, y: 0});
 		}
 
 		if (cmd != null)
 			commandManager.addCommand(cmd);
 	}
 
-	function move(dir:Point, animationName:String):Command
+	// TODO: do this recursively
+	function tryMove(dir:Point):Command
 	{
 		var next = {x: coordX + dir.x, y: coordY + dir.y};
-
 		for (block in blocks)
 		{
 			var collides = block.coordX == next.x && block.coordY == next.y;
@@ -94,31 +90,31 @@ class Player extends GameObject
 			}
 			else if (collides && block.moveable)
 			{
-				//
+				var pushCmd = push(block, dir);
+				if (pushCmd == null)
+				{
+					return null;
+				}
+				return CommandManager.combine([move(dir), pushCmd]);
 			}
 		}
 
-		return createMove(next, animationName);
+		return move(dir);
 	}
 
-	function createMove(next:Point, animationName:String):Command
+	function push(block:GameObject, dir:Point):Command
 	{
-		function execute()
+		var blockNext = {x: block.coordX + dir.x, y: block.coordY + dir.y}
+		for (block in blocks)
 		{
-			setCoordinate(next.x, next.y);
-			animation.play(animationName);
+			var collides = block.coordX == blockNext.x && block.coordY == blockNext.y;
+
+			if (collides && !block.passable)
+			{
+				return null;
+			}
 		}
 
-		var prev = {x: coordX, y: coordY};
-		function undo()
-		{
-			setCoordinate(prev.x, prev.y);
-			animation.play(animationName);
-		}
-
-		return {
-			execute: execute,
-			undo: undo
-		};
+		return block.move(dir);
 	}
 }

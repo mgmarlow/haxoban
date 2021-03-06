@@ -1,6 +1,13 @@
 package;
 
+import CommandManager.Command;
 import flixel.FlxSprite;
+
+typedef Point =
+{
+	x:Int,
+	y:Int
+};
 
 class GameObject extends FlxSprite
 {
@@ -24,5 +31,43 @@ class GameObject extends FlxSprite
 		coordY = y;
 
 		setPosition(x * SIZE, y * SIZE);
+	}
+
+	public function move(dir:Point):Command
+	{
+		if (!moveable)
+			return null;
+
+		var next = {x: coordX + dir.x, y: coordY + dir.y};
+		var animationName = getAnimationName(dir);
+		function execute()
+		{
+			setCoordinate(next.x, next.y);
+			animation.play(animationName);
+		}
+
+		var prev = {x: coordX, y: coordY};
+		function undo()
+		{
+			setCoordinate(prev.x, prev.y);
+			animation.play(animationName);
+		}
+
+		return {
+			execute: execute,
+			undo: undo
+		};
+	}
+
+	function getAnimationName(dir:Point)
+	{
+		return switch (dir)
+		{
+			case {x: 1, y: 0}: "right";
+			case {x: -1, y: 0}: "left";
+			case {x: 0, y: 1}: "down";
+			case {x: 0, y: -1}: "up";
+			case _: null;
+		};
 	}
 }
