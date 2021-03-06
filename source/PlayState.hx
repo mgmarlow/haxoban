@@ -7,7 +7,6 @@ import flixel.group.FlxGroup;
 
 class PlayState extends FlxState
 {
-	var player:Player;
 	var commander:CommandManager;
 
 	var blocks:FlxGroup = new FlxGroup(100);
@@ -46,25 +45,26 @@ class PlayState extends FlxState
 		var coordX = Std.int(entity.x / 64);
 		var coordY = Std.int(entity.y / 64);
 
+		var block:GameObject = null;
+
 		if (entity.name == "player")
 		{
-			var player = new Player(coordX, coordY, commander);
-			add(player);
+			block = new Player(coordX, coordY, commander);
 		}
 		else if (entity.name == "wall")
 		{
-			var wall = new Wall(coordX, coordY);
-			blocks.add(wall);
+			block = new Wall(coordX, coordY);
 		}
 		else if (entity.name == "box")
 		{
-			var box = new Box(coordX, coordY);
-			blocks.add(box);
+			block = new Box(coordX, coordY);
 		}
 		else if (entity.name == "destination")
 		{
-			var dest = new Destination(coordX, coordY);
-			blocks.add(dest);
+			block = new Destination(coordX, coordY);
 		}
+
+		if (block != null)
+			blocks.add(block);
 	}
 }
