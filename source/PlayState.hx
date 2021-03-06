@@ -15,15 +15,14 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
-		commander = new CommandManager();
-
 		var map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
 		var ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
 		add(ground);
 
+		commander = new CommandManager();
 		map.loadEntities(placeEntities, "entities");
-		add(blocks);
 		add(dest);
+		add(blocks);
 		add(player);
 
 		super.create();
@@ -37,6 +36,9 @@ class PlayState extends FlxState
 
 		if (FlxG.keys.justPressed.Z)
 			commander.undoCommand();
+
+		if (FlxG.keys.justPressed.R)
+			FlxG.switchState(new PlayState());
 	}
 
 	function placeEntities(entity:EntityData)

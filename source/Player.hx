@@ -4,18 +4,10 @@ import CommandManager.Command;
 import GameObject.Point;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
-import flixel.input.actions.FlxAction.FlxActionDigital;
-import flixel.input.actions.FlxActionManager;
 
 class Player extends GameObject
 {
 	var commandManager:CommandManager;
-	var actionManager = new FlxActionManager();
-
-	var up = new FlxActionDigital();
-	var down = new FlxActionDigital();
-	var left = new FlxActionDigital();
-	var right = new FlxActionDigital();
 
 	public var blocks:FlxTypedGroup<GameObject>;
 
@@ -26,15 +18,6 @@ class Player extends GameObject
 		moveable = true;
 		setSize(64, 64);
 		commandManager = commander;
-
-		// Maybe throw this somewhere else?
-		FlxG.inputs.add(actionManager);
-
-		up.addKey(W, JUST_PRESSED);
-		down.addKey(S, JUST_PRESSED);
-		left.addKey(A, JUST_PRESSED);
-		right.addKey(D, JUST_PRESSED);
-		actionManager.addActions([up, down, left, right]);
 
 		loadGraphic(AssetPaths.sokoban_tilesheet__png, true, 64, 64);
 		animation.add("left", [94, 95, 96, 94], 15, false);
@@ -55,19 +38,19 @@ class Player extends GameObject
 	{
 		var cmd:Command = null;
 
-		if (up.triggered)
+		if (FlxG.keys.anyJustPressed([UP, W]))
 		{
 			cmd = tryMove({x: 0, y: -1});
 		}
-		else if (down.triggered)
+		else if (FlxG.keys.anyJustPressed([DOWN, S]))
 		{
 			cmd = tryMove({x: 0, y: 1});
 		}
-		else if (left.triggered)
+		else if (FlxG.keys.anyJustPressed([LEFT, A]))
 		{
 			cmd = tryMove({x: -1, y: 0});
 		}
-		else if (right.triggered)
+		else if (FlxG.keys.anyJustPressed([RIGHT, D]))
 		{
 			cmd = tryMove({x: 1, y: 0});
 		}
