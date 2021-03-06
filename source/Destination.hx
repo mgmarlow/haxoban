@@ -1,7 +1,12 @@
 package;
 
+import flixel.FlxG;
+import flixel.group.FlxGroup.FlxTypedGroup;
+
 class Destination extends GameObject
 {
+	public var blocks:FlxTypedGroup<GameObject>;
+
 	public function new(x:Int = 0, y:Int = 0)
 	{
 		super(x, y);
@@ -13,7 +18,18 @@ class Destination extends GameObject
 
 	override function update(elapsed:Float)
 	{
-		// todo: win condition
+		checkVictory();
 		super.update(elapsed);
+	}
+
+	function checkVictory()
+	{
+		for (block in blocks)
+		{
+			if (block.coordX == coordX && block.coordY == coordY)
+			{
+				FlxG.switchState(new VictoryState());
+			}
+		}
 	}
 }
