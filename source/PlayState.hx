@@ -45,23 +45,13 @@ class PlayState extends FlxState
 		var coordX = Std.int(entity.x / 64);
 		var coordY = Std.int(entity.y / 64);
 
-		var block:GameObject = null;
-
-		if (entity.name == "player")
+		var block = switch (entity.name)
 		{
-			block = new Player(coordX, coordY, commander);
-		}
-		else if (entity.name == "wall")
-		{
-			block = new Wall(coordX, coordY);
-		}
-		else if (entity.name == "box")
-		{
-			block = new Box(coordX, coordY);
-		}
-		else if (entity.name == "destination")
-		{
-			block = new Destination(coordX, coordY);
+			case "player": new Player(coordX, coordY, commander);
+			case "wall": new Wall(coordX, coordY);
+			case "box": new Box(coordX, coordY);
+			case "destination": new Destination(coordX, coordY);
+			case _: null;
 		}
 
 		if (block != null)
