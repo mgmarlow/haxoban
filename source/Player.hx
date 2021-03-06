@@ -1,5 +1,6 @@
 package;
 
+import CommandManager.Command;
 import flixel.FlxG;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 import flixel.input.actions.FlxActionManager;
@@ -47,45 +48,51 @@ class Player extends GameObject
 
 	function updateMovement()
 	{
+		var cmd:Command = null;
+
 		if (up.triggered)
 		{
-			doMove({x: 0, y: -1});
+			cmd = move({x: 0, y: -1});
 			animation.play("up");
 		}
 		else if (down.triggered)
 		{
-			doMove({x: 0, y: 1});
+			cmd = move({x: 0, y: 1});
 			animation.play("down");
 		}
 		else if (left.triggered)
 		{
-			doMove({x: -1, y: 0});
+			cmd = move({x: -1, y: 0});
 			animation.play("left");
 		}
 		else if (right.triggered)
 		{
-			doMove({x: 1, y: 0});
+			cmd = move({x: 1, y: 0});
 			animation.play("right");
 		}
+
+		if (cmd != null)
+			commandManager.addCommand(cmd);
 	}
 
-	function doMove(dir:{x:Int, y:Int})
+	function move(dir:{x:Int, y:Int}):Command
 	{
-		var prevX = coordX;
-		var prevY = coordY;
-		var nextX = coordX + dir.x;
-		var nextY = coordY + dir.y;
+		var prev = {x: coordX, y: coordY};
+		var next = {x: coordX + dir.x, y: coordY + dir.y};
 
 		function execute()
 		{
-			setCoordinate(nextX, nextY);
+			setCoordinate(next.x, next.y);
 		}
 
 		function undo()
 		{
-			setCoordinate(prevX, prevY);
+			setCoordinate(prev.x, prev.y);
 		}
 
-		commandManager.addCommand(execute, undo);
+		return {
+			execute: execute,
+			undo: undo
+		};
 	}
 }

@@ -1,15 +1,21 @@
 package;
 
+typedef Command =
+{
+	execute:() -> Void,
+	undo:() -> Void
+}
+
 class CommandManager
 {
 	private var commands:Array<() -> Void> = [];
 
 	public function new() {}
 
-	public function addCommand(execute:() -> Void, undo:() -> Void)
+	public function addCommand(cmd:Command)
 	{
-		execute();
-		commands.push(undo);
+		cmd.execute();
+		commands.push(cmd.undo);
 	}
 
 	public function undoCommand()
