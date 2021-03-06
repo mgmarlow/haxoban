@@ -1,17 +1,13 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
-import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
 {
 	var player:Player;
-	var map:FlxOgmo3Loader;
-	var ground:FlxTilemap;
 	var commander:CommandManager;
 
 	var blocks:FlxGroup = new FlxGroup(100);
@@ -20,16 +16,11 @@ class PlayState extends FlxState
 	{
 		commander = new CommandManager();
 
-		map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
-		ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
-		ground.setTileProperties(89, FlxObject.NONE);
-		ground.setTileProperties(19, FlxObject.ANY);
+		var map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
+		var ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
 		add(ground);
 
-		player = new Player(commander);
 		map.loadEntities(placeEntities, "entities");
-
-		add(player);
 
 		super.create();
 	}
@@ -57,7 +48,8 @@ class PlayState extends FlxState
 
 		if (entity.name == "player")
 		{
-			player.setCoordinate(coordX, coordY);
+			var player = new Player(coordX, coordY, commander);
+			add(player);
 		}
 		else if (entity.name == "wall")
 		{

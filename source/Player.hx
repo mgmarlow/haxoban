@@ -3,7 +3,6 @@ package;
 import flixel.FlxG;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 import flixel.input.actions.FlxActionManager;
-import flixel.util.FlxColor;
 
 class Player extends GameObject
 {
@@ -15,7 +14,7 @@ class Player extends GameObject
 	var left = new FlxActionDigital();
 	var right = new FlxActionDigital();
 
-	public function new(x:Float = 0, y:Float = 0, commander:CommandManager)
+	public function new(x:Int = 0, y:Int = 0, commander:CommandManager)
 	{
 		super(x, y);
 
