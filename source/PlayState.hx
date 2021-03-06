@@ -43,6 +43,12 @@ class PlayState extends FlxState
 			commander.undoCommand();
 	}
 
+	override public function draw()
+	{
+		super.draw();
+		blocks.draw();
+	}
+
 	function placeEntities(entity:EntityData)
 	{
 		// Normalize coordinates based on tile size.
