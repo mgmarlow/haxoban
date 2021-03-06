@@ -1,4 +1,4 @@
-package;
+package objects;
 
 import CommandManager.Command;
 import flixel.FlxSprite;

@@ -1,9 +1,9 @@
-package;
+package objects;
 
 import CommandManager.Command;
-import GameObject.Point;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
+import objects.GameObject.Point;
 
 class Player extends GameObject
 {

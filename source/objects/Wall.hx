@@ -1,4 +1,4 @@
-package;
+package objects;
 
 class Wall extends GameObject
 {

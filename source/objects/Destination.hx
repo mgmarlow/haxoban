@@ -1,4 +1,4 @@
-package;
+package objects;
 
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -28,7 +28,7 @@ class Destination extends GameObject
 		{
 			if (block.coordX == coordX && block.coordY == coordY)
 			{
-				FlxG.switchState(new VictoryState());
+				FlxG.switchState(new states.VictoryState());
 			}
 		}
 	}

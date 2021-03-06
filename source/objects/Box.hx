@@ -1,4 +1,4 @@
-package;
+package objects;
 
 class Box extends GameObject
 {
