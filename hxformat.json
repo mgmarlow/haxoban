@@ -1,1 +1,11 @@
-{}
+{
+  "whitespace": {
+    "arrowFunctionsPolicy": "around",
+    "bracesConfig": {
+      "objectLiteralBraces": {
+        "openingPolicy": "after",
+        "closingPolicy": "before"
+      }
+    }
+  }
+}
