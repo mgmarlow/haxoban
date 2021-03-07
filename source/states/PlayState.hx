@@ -2,6 +2,7 @@ package states;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
 import objects.Box;
@@ -18,6 +19,10 @@ class PlayState extends FlxState {
 	var dest:Destination;
 
 	override public function create() {
+		var bg = new FlxBackdrop(AssetPaths.bg__png, 5, 5);
+		add(bg);
+		bg.velocity.set(-50, 50);
+
 		var map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
 		var ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
 		add(ground);
