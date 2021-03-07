@@ -11,7 +11,7 @@ class MenuState extends FlxState {
 	override public function create() {
 		var bg = new FlxBackdrop(AssetPaths.bg__png, 5, 5);
 		add(bg);
-		bg.velocity.set(-50, 50);
+		bg.velocity.set(-25, 50);
 
 		var title = new FlxText(0, 0, 0, "Haxoban", 32);
 		add(title);
@@ -31,6 +31,8 @@ class MenuState extends FlxState {
 	}
 
 	function clickPlay() {
-		FlxG.switchState(new PlayState());
+		FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function() {
+			FlxG.switchState(new PlayState());
+		});
 	}
 }

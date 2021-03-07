@@ -11,7 +11,7 @@ class VictoryState extends FlxState {
 	public override function create() {
 		var bg = new FlxBackdrop(AssetPaths.bg__png, 5, 5);
 		add(bg);
-		bg.velocity.set(-50, 50);
+		bg.velocity.set(-25, 50);
 
 		var victory = new FlxText(0, 0, 0, "Success!", 32);
 		add(victory);
