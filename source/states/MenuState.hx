@@ -5,10 +5,8 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
-class MenuState extends FlxState
-{
-	override public function create()
-	{
+class MenuState extends FlxState {
+	override public function create() {
 		var title = new FlxText(0, 0, 0, "Haxoban", 22);
 		add(title);
 		title.screenCenter();
@@ -21,8 +19,7 @@ class MenuState extends FlxState
 		super.create();
 	}
 
-	function clickPlay()
-	{
+	function clickPlay() {
 		FlxG.switchState(new PlayState());
 	}
 }

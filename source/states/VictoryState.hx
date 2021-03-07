@@ -5,10 +5,8 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
-class VictoryState extends FlxState
-{
-	public override function create()
-	{
+class VictoryState extends FlxState {
+	public override function create() {
 		var victory = new FlxText(0, 0, 0, "Victory!", 22);
 		add(victory);
 		victory.screenCenter();
@@ -21,8 +19,7 @@ class VictoryState extends FlxState
 		super.create();
 	}
 
-	function clickReturn()
-	{
+	function clickReturn() {
 		FlxG.switchState(new MenuState());
 	}
 }

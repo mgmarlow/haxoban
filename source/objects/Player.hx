@@ -5,14 +5,12 @@ import flixel.FlxG;
 import flixel.group.FlxGroup;
 import objects.GameObject.Point;
 
-class Player extends GameObject
-{
+class Player extends GameObject {
 	var commandManager:CommandManager;
 
 	public var blocks:FlxTypedGroup<GameObject>;
 
-	public function new(x:Int = 0, y:Int = 0, commander:CommandManager)
-	{
+	public function new(x:Int = 0, y:Int = 0, commander:CommandManager) {
 		super(x, y);
 
 		moveable = true;
@@ -28,30 +26,21 @@ class Player extends GameObject
 		animation.play("idle");
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
 		updateMovement();
 		super.update(elapsed);
 	}
 
-	function updateMovement()
-	{
+	function updateMovement() {
 		var cmd:Command = null;
 
-		if (FlxG.keys.anyJustPressed([UP, W]))
-		{
+		if (FlxG.keys.anyJustPressed([UP, W])) {
 			cmd = tryMove({x: 0, y: -1});
-		}
-		else if (FlxG.keys.anyJustPressed([DOWN, S]))
-		{
+		} else if (FlxG.keys.anyJustPressed([DOWN, S])) {
 			cmd = tryMove({x: 0, y: 1});
-		}
-		else if (FlxG.keys.anyJustPressed([LEFT, A]))
-		{
+		} else if (FlxG.keys.anyJustPressed([LEFT, A])) {
 			cmd = tryMove({x: -1, y: 0});
-		}
-		else if (FlxG.keys.anyJustPressed([RIGHT, D]))
-		{
+		} else if (FlxG.keys.anyJustPressed([RIGHT, D])) {
 			cmd = tryMove({x: 1, y: 0});
 		}
 
@@ -60,22 +49,16 @@ class Player extends GameObject
 	}
 
 	// TODO: do this recursively
-	function tryMove(dir:Point):Command
-	{
+	function tryMove(dir:Point):Command {
 		var next = {x: coordX + dir.x, y: coordY + dir.y};
-		for (block in blocks)
-		{
+		for (block in blocks) {
 			var collides = block.coordX == next.x && block.coordY == next.y;
 
-			if (collides && !block.passable && !block.moveable)
-			{
+			if (collides && !block.passable && !block.moveable) {
 				return null;
-			}
-			else if (collides && block.moveable)
-			{
+			} else if (collides && block.moveable) {
 				var pushCmd = push(block, dir);
-				if (pushCmd == null)
-				{
+				if (pushCmd == null) {
 					return null;
 				}
 				return CommandManager.combine([move(dir), pushCmd]);
@@ -85,15 +68,12 @@ class Player extends GameObject
 		return move(dir);
 	}
 
-	function push(block:GameObject, dir:Point):Command
-	{
+	function push(block:GameObject, dir:Point):Command {
 		var blockNext = {x: block.coordX + dir.x, y: block.coordY + dir.y}
-		for (block in blocks)
-		{
+		for (block in blocks) {
 			var collides = block.coordX == blockNext.x && block.coordY == blockNext.y;
 
-			if (collides && !block.passable)
-			{
+			if (collides && !block.passable) {
 				return null;
 			}
 		}

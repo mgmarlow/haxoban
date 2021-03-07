@@ -10,16 +10,14 @@ import objects.GameObject;
 import objects.Player;
 import objects.Wall;
 
-class PlayState extends FlxState
-{
+class PlayState extends FlxState {
 	var commander:CommandManager;
 
 	var blocks:FlxTypedGroup<GameObject> = new FlxTypedGroup(100);
 	var player:Player;
 	var dest:Destination;
 
-	override public function create()
-	{
+	override public function create() {
 		var map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
 		var ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
 		add(ground);
@@ -33,8 +31,7 @@ class PlayState extends FlxState
 		super.create();
 	}
 
-	override public function update(elapsed:Float)
-	{
+	override public function update(elapsed:Float) {
 		player.blocks = blocks;
 		dest.blocks = blocks;
 		super.update(elapsed);
@@ -46,23 +43,18 @@ class PlayState extends FlxState
 			FlxG.switchState(new PlayState());
 	}
 
-	function placeEntities(entity:EntityData)
-	{
+	function placeEntities(entity:EntityData) {
 		// Normalize coordinates based on tile size.
 		var coordX = Std.int(entity.x / 64);
 		var coordY = Std.int(entity.y / 64);
 
-		if (entity.name == "player")
-		{
+		if (entity.name == "player") {
 			player = new Player(coordX, coordY, commander);
-		}
-		else if (entity.name == "destination")
-		{
+		} else if (entity.name == "destination") {
 			dest = new Destination(coordX, coordY);
 		}
 
-		var block = switch (entity.name)
-		{
+		var block = switch (entity.name) {
 			case "wall": new Wall(coordX, coordY);
 			case "box": new Box(coordX, coordY);
 			case _: null;

@@ -3,14 +3,12 @@ package objects;
 import CommandManager.Command;
 import flixel.FlxSprite;
 
-typedef Point =
-{
+typedef Point = {
 	x:Int,
 	y:Int
 };
 
-class GameObject extends FlxSprite
-{
+class GameObject extends FlxSprite {
 	static inline var SIZE:Int = 64;
 
 	public var coordX:Int;
@@ -19,36 +17,31 @@ class GameObject extends FlxSprite
 	public var moveable = false;
 	public var passable = false;
 
-	public function new(coordX:Int = 0, coordY:Int = 0)
-	{
+	public function new(coordX:Int = 0, coordY:Int = 0) {
 		super(0, 0);
 		setCoordinate(coordX, coordY);
 	}
 
-	public function setCoordinate(x:Int, y:Int)
-	{
+	public function setCoordinate(x:Int, y:Int) {
 		coordX = x;
 		coordY = y;
 
 		setPosition(x * SIZE, y * SIZE);
 	}
 
-	public function move(dir:Point):Command
-	{
+	public function move(dir:Point):Command {
 		if (!moveable)
 			return null;
 
 		var next = {x: coordX + dir.x, y: coordY + dir.y};
 		var animationName = getAnimationName(dir);
-		function execute()
-		{
+		function execute() {
 			setCoordinate(next.x, next.y);
 			animation.play(animationName);
 		}
 
 		var prev = {x: coordX, y: coordY};
-		function undo()
-		{
+		function undo() {
 			setCoordinate(prev.x, prev.y);
 			animation.play(animationName);
 		}
@@ -59,10 +52,8 @@ class GameObject extends FlxSprite
 		};
 	}
 
-	function getAnimationName(dir:Point)
-	{
-		return switch (dir)
-		{
+	function getAnimationName(dir:Point) {
+		return switch (dir) {
 			case {x: 1, y: 0}: "right";
 			case {x: -1, y: 0}: "left";
 			case {x: 0, y: 1}: "down";

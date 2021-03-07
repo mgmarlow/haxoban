@@ -1,31 +1,24 @@
 package;
 
-typedef Command =
-{
+typedef Command = {
 	execute:() -> Void,
 	undo:() -> Void
 }
 
-class CommandManager
-{
+class CommandManager {
 	private var commands:Array<() -> Void> = [];
 
 	public function new() {}
 
-	static public function combine(cmds:Array<Command>):Command
-	{
-		function execute()
-		{
-			for (cmd in cmds)
-			{
+	static public function combine(cmds:Array<Command>):Command {
+		function execute() {
+			for (cmd in cmds) {
 				cmd.execute();
 			}
 		}
 
-		function undo()
-		{
-			for (cmd in cmds)
-			{
+		function undo() {
+			for (cmd in cmds) {
 				cmd.undo();
 			}
 		}
@@ -36,16 +29,13 @@ class CommandManager
 		};
 	}
 
-	public function addCommand(cmd:Command)
-	{
+	public function addCommand(cmd:Command) {
 		cmd.execute();
 		commands.push(cmd.undo);
 	}
 
-	public function undoCommand()
-	{
-		if (commands.length <= 0)
-		{
+	public function undoCommand() {
+		if (commands.length <= 0) {
 			return;
 		}
 
