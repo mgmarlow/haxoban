@@ -1,6 +1,5 @@
 package objects;
 
-import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
 class Destination extends GameObject {
@@ -12,18 +11,5 @@ class Destination extends GameObject {
 		loadGraphic(AssetPaths.sokoban_tilesheet__png, true, 64, 64);
 		animation.add("idle", [37]);
 		animation.play("idle");
-	}
-
-	override function update(elapsed:Float) {
-		checkVictory();
-		super.update(elapsed);
-	}
-
-	function checkVictory() {
-		for (block in blocks) {
-			if (block.coordX == coordX && block.coordY == coordY) {
-				FlxG.switchState(new states.VictoryState());
-			}
-		}
 	}
 }

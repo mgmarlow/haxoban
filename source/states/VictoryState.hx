@@ -1,32 +1,31 @@
 package states;
 
 import flixel.FlxG;
-import flixel.FlxState;
-import flixel.addons.display.FlxBackdrop;
+import flixel.FlxSubState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
-class VictoryState extends FlxState {
+class VictoryState extends FlxSubState {
 	public override function create() {
-		var bg = new FlxBackdrop(AssetPaths.bg__png, 5, 5);
-		add(bg);
-		bg.velocity.set(-25, 50);
-
 		var victory = new FlxText(0, 0, 0, "Success!", 32);
 		add(victory);
 		victory.screenCenter();
 		victory.setBorderStyle(FlxTextBorderStyle.SHADOW, FlxColor.BLACK, 4);
 		victory.y = victory.y - victory.height;
 
-		var returnButton = new FlxButton(0, 0, "level select", clickReturn);
-		add(returnButton);
-		returnButton.screenCenter();
+		var select = new FlxText(0, 0, 0, "Hit return to go back to the level select", 16);
+		add(select);
+		select.screenCenter();
 
 		super.create();
 	}
 
-	function clickReturn() {
-		FlxG.switchState(new MenuState());
+	public override function update(elapsed:Float) {
+		super.update(elapsed);
+
+		if (FlxG.keys.justPressed.ENTER) {
+			FlxG.switchState(new MenuState());
+		}
 	}
 }

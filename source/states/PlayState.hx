@@ -17,12 +17,18 @@ class PlayState extends FlxState {
 	var blocks:FlxTypedGroup<GameObject> = new FlxTypedGroup(100);
 	var player:Player;
 	var dest:Destination;
+	var selectedLevel:String;
+
+	public function new(level:String) {
+		super();
+		selectedLevel = level;
+	}
 
 	override public function create() {
 		var bg = new FlxBackdrop(AssetPaths.bg_plain__png, 5, 5);
 		add(bg);
 
-		var map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, AssetPaths.room_001__json);
+		var map = new FlxOgmo3Loader(AssetPaths.haxoban__ogmo, selectedLevel);
 		var ground = map.loadTilemap(AssetPaths.sokoban_tilesheet__png, "walls");
 		add(ground);
 
@@ -40,11 +46,21 @@ class PlayState extends FlxState {
 		dest.blocks = blocks;
 		super.update(elapsed);
 
+		checkVictory();
+
 		if (FlxG.keys.justPressed.Z)
 			commander.undoCommand();
 
 		if (FlxG.keys.justPressed.R)
-			FlxG.switchState(new PlayState());
+			FlxG.switchState(new PlayState(selectedLevel));
+	}
+
+	function checkVictory() {
+		for (block in blocks) {
+			if (block.coordX == dest.coordX && block.coordY == dest.coordY) {
+				openSubState(new states.VictoryState());
+			}
+		}
 	}
 
 	function placeEntities(entity:EntityData) {
