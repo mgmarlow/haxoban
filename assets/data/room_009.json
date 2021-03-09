@@ -1,0 +1,34 @@
+{
+  "ogmoVersion": "3.4.0",
+  "width": 640,
+  "height": 640,
+  "offsetX": 0,
+  "offsetY": 0,
+  "layers": [
+    {
+      "name": "walls",
+      "_eid": "57861663",
+      "offsetX": 0,
+      "offsetY": 0,
+      "gridCellWidth": 64,
+      "gridCellHeight": 64,
+      "gridCellsX": 10,
+      "gridCellsY": 10,
+      "tileset": "New Tileset",
+      "data": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+      "exportMode": 0,
+      "arrayMode": 0
+    },
+    {
+      "name": "entities",
+      "_eid": "65413784",
+      "offsetX": 0,
+      "offsetY": 0,
+      "gridCellWidth": 64,
+      "gridCellHeight": 64,
+      "gridCellsX": 10,
+      "gridCellsY": 10,
+      "entities": []
+    }
+  ]
+}
