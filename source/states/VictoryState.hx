@@ -3,11 +3,12 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
-import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
 class VictoryState extends FlxSubState {
 	public override function create() {
+		add(new objects.Overlay());
+
 		var victory = new FlxText(0, 0, 0, "Success!", 32);
 		add(victory);
 		victory.screenCenter();
