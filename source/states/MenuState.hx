@@ -20,8 +20,6 @@ class MenuState extends FlxState {
 	var levelsToShow:Int;
 
 	inline static var NUM_COLUMNS = 3;
-	// inline static var NUM_LEVELS = 12;
-	inline static var NUM_LEVELS = 8;
 
 	override public function create() {
 		levelsToShow = Helper.getLevelProgress();

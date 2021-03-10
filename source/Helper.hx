@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 
 class Helper {
+	public static inline var NUM_LEVELS = 8;
+
 	public static function leftPad(n:Int, char:String):String {
 		return n > 9 ? '$n' : '$char$n';
 	}
@@ -12,7 +14,7 @@ class Helper {
 	}
 
 	public static function saveNextLevel(next:Int) {
-		if (next > getLevelProgress()) {
+		if (next <= NUM_LEVELS && next > getLevelProgress()) {
 			FlxG.save.data.levelProgress = next;
 			FlxG.save.flush();
 		}
