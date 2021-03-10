@@ -17,11 +17,15 @@ class Arrow extends FlxSprite {
 class MenuState extends FlxState {
 	var arrow:Arrow;
 	var levelIndex = 0;
+	var levelsToShow:Int;
 
 	inline static var NUM_COLUMNS = 3;
-	inline static var NUM_LEVELS = 12;
+	// inline static var NUM_LEVELS = 12;
+	inline static var NUM_LEVELS = 8;
 
 	override public function create() {
+		levelsToShow = Helper.getLevelProgress();
+
 		var bg = new FlxBackdrop(AssetPaths.bg__png, 5, 5);
 		add(bg);
 		bg.velocity.set(-25, 50);
@@ -54,8 +58,8 @@ class MenuState extends FlxState {
 	}
 
 	function createLevelSelect() {
-		for (i in 0...(NUM_LEVELS)) {
-			var level = leftPad(i + 1, "0");
+		for (i in 0...(levelsToShow)) {
+			var level = Helper.leftPad(i + 1, "0");
 			var text = new FlxText(0, 0, 0, level, 24);
 			var offset = getColumnOffset(i);
 
@@ -87,32 +91,26 @@ class MenuState extends FlxState {
 		}
 	}
 
-	function leftPad(n:Int, char:String):String {
-		return n > 9 ? '$n' : '$char$n';
-	}
-
 	function getColumnOffset(i:Int) {
 		return { x: Std.int(Math.floor(i / NUM_COLUMNS)), y: i % NUM_COLUMNS };
 	}
 
 	function clamp(i:Int):Int {
-		var clamped = i % NUM_LEVELS;
-		if (clamped > 11) {
+		var clamped = i % levelsToShow;
+		if (clamped > levelsToShow - 1) {
 			return 0;
 		}
 
 		if (clamped < 0) {
-			return NUM_LEVELS + clamped;
+			return levelsToShow + clamped;
 		}
 
 		return clamped;
 	}
 
 	function selectLevel() {
-		var level = leftPad(levelIndex + 1, "0");
-
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function() {
-			FlxG.switchState(new PlayState(level));
+			FlxG.switchState(new PlayState(levelIndex + 1));
 		});
 	}
 }

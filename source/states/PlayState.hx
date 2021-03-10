@@ -19,13 +19,14 @@ class PlayState extends FlxState {
 	var player:Player;
 	var dest:Destination;
 	var room:String;
-	var selectedLevel:String;
+	var selectedLevel:Int;
 	var movesText:FlxText;
 
-	public function new(level:String) {
+	public function new(level:Int) {
 		super();
 		selectedLevel = level;
-		room = 'assets/data/room_0$level.json';
+		var roomString = Helper.leftPad(level, "0");
+		room = 'assets/data/room_0$roomString.json';
 	}
 
 	override public function create() {
@@ -82,7 +83,7 @@ class PlayState extends FlxState {
 	function checkVictory() {
 		for (block in blocks) {
 			if (block.coordX == dest.coordX && block.coordY == dest.coordY) {
-				openSubState(new states.VictoryState());
+				openSubState(new states.VictoryState(selectedLevel));
 			}
 		}
 	}

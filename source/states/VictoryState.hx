@@ -6,6 +6,11 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 
 class VictoryState extends FlxSubState {
+	public function new(level:Int) {
+		Helper.saveNextLevel(level + 1);
+		super();
+	}
+
 	public override function create() {
 		add(new objects.Overlay());
 
