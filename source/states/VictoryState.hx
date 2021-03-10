@@ -13,9 +13,9 @@ class VictoryState extends FlxSubState {
 		add(victory);
 		victory.screenCenter();
 		victory.setBorderStyle(FlxTextBorderStyle.SHADOW, FlxColor.BLACK, 4);
-		victory.y = victory.y - victory.height;
+		victory.y -= victory.height;
 
-		var select = new FlxText(0, 0, 0, "Hit return to go back to the level select", 16);
+		var select = new FlxText(0, 0, 0, "enter to continue", 18);
 		add(select);
 		select.screenCenter();
 

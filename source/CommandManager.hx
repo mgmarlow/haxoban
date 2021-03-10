@@ -8,6 +8,8 @@ typedef Command = {
 class CommandManager {
 	private var commands:Array<() -> Void> = [];
 
+	@:isVar public var count(get, null):Int;
+
 	public function new() {}
 
 	static public function combine(cmds:Array<Command>):Command {
@@ -41,5 +43,9 @@ class CommandManager {
 
 		var undo = commands.pop();
 		undo();
+	}
+
+	function get_count() {
+		return commands.length;
 	}
 }

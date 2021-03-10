@@ -110,10 +110,9 @@ class MenuState extends FlxState {
 
 	function selectLevel() {
 		var level = leftPad(levelIndex + 1, "0");
-		var room = 'assets/data/room_0$level.json';
 
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function() {
-			FlxG.switchState(new PlayState(room));
+			FlxG.switchState(new PlayState(level));
 		});
 	}
 }
