@@ -17,12 +17,12 @@ class Arrow extends FlxSprite {
 class MenuState extends FlxState {
 	var arrow:Arrow;
 	var levelIndex = 0;
-	var levelsToShow:Int;
+	var levelProgress:Int;
 
 	inline static var NUM_COLUMNS = 3;
 
 	override public function create() {
-		levelsToShow = Helper.getLevelProgress();
+		levelProgress = Helper.getLevelProgress();
 
 		var bg = new FlxBackdrop(AssetPaths.bg__png, 5, 5);
 		add(bg);
@@ -56,9 +56,15 @@ class MenuState extends FlxState {
 	}
 
 	function createLevelSelect() {
-		for (i in 0...(levelsToShow)) {
-			var level = Helper.leftPad(i + 1, "0");
-			var text = new FlxText(0, 0, 0, level, 24);
+		for (i in 0...(Helper.NUM_LEVELS)) {
+			var level = i + 1;
+			var levelDisplay = Helper.leftPad(level, "0");
+			var text = new FlxText(0, 0, 0, levelDisplay, 24);
+
+			if (level > levelProgress) {
+				text.color = FlxColor.GRAY;
+			}
+
 			var offset = getColumnOffset(i);
 
 			add(text);
@@ -94,13 +100,13 @@ class MenuState extends FlxState {
 	}
 
 	function clamp(i:Int):Int {
-		var clamped = i % levelsToShow;
-		if (clamped > levelsToShow - 1) {
+		var clamped = i % levelProgress;
+		if (clamped > levelProgress - 1) {
 			return 0;
 		}
 
 		if (clamped < 0) {
-			return levelsToShow + clamped;
+			return levelProgress + clamped;
 		}
 
 		return clamped;
