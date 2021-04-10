@@ -6,6 +6,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
+import lime.math.Vector2;
 import objects.Box;
 import objects.Destination;
 import objects.GameObject;
@@ -84,7 +85,7 @@ class PlayState extends FlxState {
 		for (block in blocks) {
 			if (block.coordX == dest.coordX && block.coordY == dest.coordY) {
 				FlxG.camera.shake(0.01, 0.2);
-				openSubState(new states.VictoryState(selectedLevel));
+				openSubState(new states.VictoryState(selectedLevel, new Vector2(dest.x + dest.width / 2, dest.y + dest.height / 2)));
 			}
 		}
 	}

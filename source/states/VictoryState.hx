@@ -4,10 +4,18 @@ import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import lime.math.Vector2;
+import objects.Confetti;
 
 class VictoryState extends FlxSubState {
-	public function new(level:Int) {
+	var emitterX:Float;
+	var emitterY:Float;
+	var emitter:Confetti;
+
+	public function new(level:Int, emitterCoords:Vector2) {
 		Helper.saveNextLevel(level + 1);
+		emitterX = emitterCoords.x;
+		emitterY = emitterCoords.y;
 		super();
 	}
 
@@ -23,6 +31,10 @@ class VictoryState extends FlxSubState {
 		var select = new FlxText(0, 0, 0, "enter to continue", 18);
 		add(select);
 		select.screenCenter();
+
+		emitter = new Confetti(emitterX, emitterY);
+		add(emitter);
+		emitter.start(true, 0.01, 0);
 
 		super.create();
 	}
