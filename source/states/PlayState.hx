@@ -83,6 +83,7 @@ class PlayState extends FlxState {
 	function checkVictory() {
 		for (block in blocks) {
 			if (block.coordX == dest.coordX && block.coordY == dest.coordY) {
+				FlxG.camera.shake(0.01, 0.2);
 				openSubState(new states.VictoryState(selectedLevel));
 			}
 		}
