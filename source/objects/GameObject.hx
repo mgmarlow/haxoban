@@ -2,6 +2,7 @@ package objects;
 
 import CommandManager.Command;
 import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
 
 typedef Point = {
 	x:Int,
@@ -19,14 +20,13 @@ class GameObject extends FlxSprite {
 
 	public function new(coordX:Int = 0, coordY:Int = 0) {
 		super(0, 0);
-		setCoordinate(coordX, coordY);
+		updatePosition(coordX, coordY, setPosition);
 	}
 
-	public function setCoordinate(x:Int, y:Int) {
+	public function updatePosition(x:Int, y:Int, onUpdate:(Int, Int) -> Void) {
 		coordX = x;
 		coordY = y;
-
-		setPosition(x * SIZE, y * SIZE);
+		onUpdate(x * SIZE, y * SIZE);
 	}
 
 	public function move(dir:Point):Command {
@@ -36,13 +36,15 @@ class GameObject extends FlxSprite {
 		var next = { x: coordX + dir.x, y: coordY + dir.y };
 		var animationName = getAnimationName(dir);
 		function execute() {
-			setCoordinate(next.x, next.y);
+			updatePosition(next.x, next.y, (x, y) -> {
+				FlxTween.tween(this, { x: x, y: y }, 0.1);
+			});
 			animation.play(animationName);
 		}
 
 		var prev = { x: coordX, y: coordY };
 		function undo() {
-			setCoordinate(prev.x, prev.y);
+			updatePosition(prev.x, prev.y, setPosition);
 			animation.play(animationName);
 		}
 
